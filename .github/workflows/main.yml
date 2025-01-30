@@ -28,39 +28,26 @@ jobs:
           echo "MEETING_ID=$MEETING_ID" >> $GITHUB_ENV
           echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
 
-      - name: Ensure index.html Exists
+      - name: Create or Update index.html
         run: |
-          if [ ! -s index.html ]; then
-            cat > index.html <<EOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word of Hope Church - Online Service</title>
-</head>
-<body>
-    <h1>Word of Hope Church</h1>
-    <p>Join our worship service online:</p>
-    <a id="zoom-web" href="[weblink]" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
-    <a id="zoom-app" href="[applink]" class="btn btn-zoom">Join on Zoom (With App)</a>
-</body>
-</html>
-EOF
-          fi
-
-      - name: Update index.html with Correct Zoom Links
-        run: |
-          WEB_LINK="${ZOOM_LINK}&browser=1"
-          APP_LINK="zoommtg://zoom.us/join?action=join&confno=${MEETING_ID}&pwd=${PASSWORD}"
-          
-          # Ensure correct replacements using escaped placeholders
-          sed -i 's|\[weblink\]|'"$WEB_LINK"'|g' index.html
-          sed -i 's|\[applink\]|'"$APP_LINK"'|g' index.html
+          echo "<!DOCTYPE html>" > index.html
+          echo "<html lang=\"en\">" >> index.html
+          echo "<head>" >> index.html
+          echo "    <meta charset=\"UTF-8\">" >> index.html
+          echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" >> index.html
+          echo "    <title>Word of Hope Church - Online Service</title>" >> index.html
+          echo "</head>" >> index.html
+          echo "<body>" >> index.html
+          echo "    <h1>Word of Hope Church</h1>" >> index.html
+          echo "    <p>Join our worship service online:</p>" >> index.html
+          echo "    <a id=\"zoom-web\" href=\"${ZOOM_LINK}&browser=1\" class=\"btn btn-zoom\">Join on Zoom (Without App - Easy Method)</a>" >> index.html
+          echo "    <a id=\"zoom-app\" href=\"zoommtg://zoom.us/join?action=join&confno=${MEETING_ID}&pwd=${PASSWORD}\" class=\"btn btn-zoom\">Join on Zoom (With App)</a>" >> index.html
+          echo "</body>" >> index.html
+          echo "</html>" >> index.html
 
       - name: Update Zoom Deep Link File
         run: |
-          echo "$APP_LINK" > zoom_deep_link.txt
+          echo "zoommtg://zoom.us/join?action=join&confno=${MEETING_ID}&pwd=${PASSWORD}" > zoom_deep_link.txt
 
       - name: Commit Changes
         env:
