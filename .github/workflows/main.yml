@@ -1,0 +1,46 @@
+name: Update Zoom Links
+
+on:
+  push:
+    paths:
+      - 'zoom_invite.txt'
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  update-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Read Zoom Invite Link
+        id: get_zoom_link
+        run: |
+          ZOOM_LINK=$(cat zoom_invite.txt | tr -d '\n')
+          MEETING_ID=$(echo "$ZOOM_LINK" | grep -oE 'j/[0-9]+' | cut -d'/' -f2)
+          PASSWORD=$(echo "$ZOOM_LINK" | grep -oE 'pwd=[^&]+' | cut -d'=' -f2)
+          echo "ZOOM_LINK=$ZOOM_LINK" >> $GITHUB_ENV
+          echo "MEETING_ID=$MEETING_ID" >> $GITHUB_ENV
+          echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
+
+      - name: Update Zoom Deep Link File
+        run: |
+          echo "zoommtg://zoom.us/join?action=join&confno=${{ env.MEETING_ID }}&pwd=${{ env.PASSWORD }}" > zoom_deep_link.txt
+
+      - name: Update index.html
+        run: |
+          sed -i 's|https://twohc.live/zoomweb|${{ env.ZOOM_LINK }}|g' index.html
+          sed -i 's|https://us02web.zoom.us/j/[0-9]\+?pwd=[^"\ ]\+|${{ env.ZOOM_LINK }}|g' index.html
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add zoom_deep_link.txt index.html
+          git commit -m "Updated Zoom links" || echo "No changes to commit"
+          git push
