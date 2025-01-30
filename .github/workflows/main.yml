@@ -28,14 +28,37 @@ jobs:
           echo "MEETING_ID=$MEETING_ID" >> $GITHUB_ENV
           echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
 
+      - name: Ensure index.html Exists
+        run: |
+          if [ ! -s index.html ]; then
+              cat > index.html <<EOL
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word of Hope Church - Online Service</title>
+</head>
+<body>
+    <h1>Word of Hope Church</h1>
+    <p>Join our worship service online:</p>
+    <a id="zoom-web" href="[weblink]" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
+    <a id="zoom-app" href="[applink]" class="btn btn-zoom">Join on Zoom (With App)</a>
+</body>
+</html>
+EOL
+          fi
+
+      - name: Update index.html with Correct Zoom Links
+        run: |
+          WEB_LINK="${{ env.ZOOM_LINK }}&browser=1"
+          APP_LINK="zoommtg://zoom.us/join?action=join&confno=${{ env.MEETING_ID }}&pwd=${{ env.PASSWORD }}"
+          sed -i "s|\[weblink\]|$WEB_LINK|g" index.html
+          sed -i "s|\[applink\]|$APP_LINK|g" index.html
+
       - name: Update Zoom Deep Link File
         run: |
-          echo "zoommtg://zoom.us/join?action=join&confno=${{ env.MEETING_ID }}&pwd=${{ env.PASSWORD }}" > zoom_deep_link.txt
-
-      - name: Update index.html
-        run: |
-          sed -i 's|https://twohc.live/zoomweb|${{ env.ZOOM_LINK }}|g' index.html
-          sed -i 's|https://us02web.zoom.us/j/[0-9]\+?pwd=[^"\ ]\+|${{ env.ZOOM_LINK }}|g' index.html
+          echo "$APP_LINK" > zoom_deep_link.txt
 
       - name: Commit Changes
         run: |
@@ -43,4 +66,6 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add zoom_deep_link.txt index.html
           git commit -m "Updated Zoom links" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/wordofhope/Bible_Study.git HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
