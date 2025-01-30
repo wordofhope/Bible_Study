@@ -40,8 +40,9 @@ jobs:
           echo "<body>" >> index.html
           echo "    <h1>Word of Hope Church</h1>" >> index.html
           echo "    <p>Join our worship service online:</p>" >> index.html
+          echo "    <a id=\"youtube\" href=\"https://www.youtube.com/channel/UCQQk_ZMqz1uuFVXawbVbvtw/\" class=\"btn btn-youtube\">Watch on YouTube</a>" >> index.html
           echo "    <a id=\"zoom-web\" href=\"${ZOOM_LINK}&browser=1\" class=\"btn btn-zoom\">Join on Zoom (Without App - Easy Method)</a>" >> index.html
-          echo "    <a id=\"zoom-app\" href=\"zoommtg://zoom.us/join?action=join&confno=${MEETING_ID}&pwd=${PASSWORD}\" class=\"btn btn-zoom\">Join on Zoom (With App)</a>" >> index.html
+          echo "    <a id=\"zoom-app\" href=\"${ZOOM_LINK}\" class=\"btn btn-zoom\">Join on Zoom (With App)</a>" >> index.html
           echo "</body>" >> index.html
           echo "</html>" >> index.html
 
