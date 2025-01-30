@@ -31,19 +31,19 @@ jobs:
       - name: Ensure index.html Exists
         run: |
           if [ ! -s index.html ]; then
-              cat > index.html <<EOL
+            cat > index.html <<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word of Hope Church - Online Service</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word of Hope Church - Online Service</title>
 </head>
 <body>
-    <h1>Word of Hope Church</h1>
-    <p>Join our worship service online:</p>
-    <a id="zoom-web" href="[weblink]" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
-    <a id="zoom-app" href="[applink]" class="btn btn-zoom">Join on Zoom (With App)</a>
+  <h1>Word of Hope Church</h1>
+  <p>Join our worship service online:</p>
+  <a id="zoom-web" href="[weblink]" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
+  <a id="zoom-app" href="[applink]" class="btn btn-zoom">Join on Zoom (With App)</a>
 </body>
 </html>
 EOL
