@@ -53,8 +53,10 @@ EOL
         run: |
           WEB_LINK="${{ env.ZOOM_LINK }}&browser=1"
           APP_LINK="zoommtg://zoom.us/join?action=join&confno=${{ env.MEETING_ID }}&pwd=${{ env.PASSWORD }}"
-          sed -i "s|\[weblink\]|$WEB_LINK|g" index.html
-          sed -i "s|\[applink\]|$APP_LINK|g" index.html
+          
+          # Ensure safe replacements
+          sed -i 's|\[weblink\]|'"$WEB_LINK"'|g' index.html
+          sed -i 's|\[applink\]|'"$APP_LINK"'|g' index.html
 
       - name: Update Zoom Deep Link File
         run: |
