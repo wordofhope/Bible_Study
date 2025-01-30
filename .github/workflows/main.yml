@@ -31,30 +31,32 @@ jobs:
       - name: Ensure index.html Exists
         run: |
           if [ ! -s index.html ]; then
-            cat > index.html <<EOL
+              cat << 'EOF' > index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word of Hope Church - Online Service</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word of Hope Church - Online Service</title>
 </head>
 <body>
-  <h1>Word of Hope Church</h1>
-  <p>Join our worship service online:</p>
-  <a id="zoom-web" href="[weblink]" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
-  <a id="zoom-app" href="[applink]" class="btn btn-zoom">Join on Zoom (With App)</a>
+    <h1>Word of Hope Church</h1>
+    <p>Join our worship service online:</p>
+    <a id="zoom-web" href="[weblink]" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
+    <a id="zoom-app" href="[applink]" class="btn btn-zoom">Join on Zoom (With App)</a>
 </body>
 </html>
-EOL
+EOF
           fi
 
       - name: Update index.html with Correct Zoom Links
         run: |
-          WEB_LINK="${ZOOM_LINK}&browser=1"
-          APP_LINK="zoommtg://zoom.us/join?action=join&confno=${MEETING_ID}&pwd=${PASSWORD}"
-          sed -i "s|\\[weblink\\]|$WEB_LINK|g" index.html
-          sed -i "s|\\[applink\\]|$APP_LINK|g" index.html
+          WEB_LINK="${{ env.ZOOM_LINK }}&browser=1"
+          APP_LINK="zoommtg://zoom.us/join?action=join&confno=${{ env.MEETING_ID }}&pwd=${{ env.PASSWORD }}"
+          
+          # Ensure safe replacements using escaped placeholders
+          sed -i 's|\[weblink\]|'"$WEB_LINK"'|g' index.html
+          sed -i 's|\[applink\]|'"$APP_LINK"'|g' index.html
 
       - name: Update Zoom Deep Link File
         run: |
