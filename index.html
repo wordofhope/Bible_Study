@@ -4,25 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word of Hope Church - Online Service</title>
-    <script>
-        async function loadZoomLinks() {
-            const webLink = await fetch('zoom_web.txt').then(response => response.text());
-            const appLink = await fetch('zoom_app.txt').then(response => response.text());
-            
-            document.getElementById('zoom-web').href = webLink.trim();
-            document.getElementById('zoom-app').href = appLink.trim();
-        }
-        window.onload = loadZoomLinks;
-    </script>
 </head>
 <body>
     <h1>Word of Hope Church</h1>
     <p>Join our worship service online:</p>
-    
     <a id="youtube" href="https://www.youtube.com/channel/UCQQk_ZMqz1uuFVXawbVbvtw/" class="btn btn-youtube">Watch on YouTube</a>
-    <br>
-    <a id="zoom-web" href="#" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
-    <br>
-    <a id="zoom-app" href="#" class="btn btn-zoom">Join on Zoom (With App)</a>
+    <a id="zoom-web" href="https://us02web.zoom.us/j/86299053193?pwd=JYKIZbDpPvXcRv4ocGs1mkFhZNJUqS.1&browser=1" class="btn btn-zoom">Join on Zoom (Without App - Easy Method)</a>
+    <a id="zoom-app" href="https://us02web.zoom.us/j/86299053193?pwd=JYKIZbDpPvXcRv4ocGs1mkFhZNJUqS.1" class="btn btn-zoom">Join on Zoom (With App)</a>
 </body>
 </html>
