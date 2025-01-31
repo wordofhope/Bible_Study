@@ -76,4 +76,4 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add index.html zoom_deep_link.txt
           git commit -m "Updated Zoom links from GitHub issue" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/YOUR_USERNAME/YOUR_REPO.git HEAD:main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/wordofhope/Bible_Study.git HEAD:main
