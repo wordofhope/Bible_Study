@@ -82,7 +82,7 @@ jobs:
           echo "        <a href=\"${LONG_URL}\" class=\"btn btn-zoom\">Join on Zoom (With App)</a>" >> index.html
           echo "    </div>" >> index.html
           echo "    <footer>" >> index.html
-          echo "        <p>&copy; 2025 Word of Hope Church. All Rights Reserved.</p>" >> index.html
+          echo "        <p>&copy; 2025 Word of Hope Church. All Rights Reserved..</p>" >> index.html
           echo "    </footer>" >> index.html
           echo "</body>" >> index.html
           echo "</html>" >> index.html
