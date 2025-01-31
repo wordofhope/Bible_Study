@@ -1,2 +1,0 @@
-- name: Google Calendar Action
-  uses: vincentkoc/actions-google-calendar@v2.0.2
