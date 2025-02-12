@@ -13,14 +13,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Extract Zoom Short Link
+      - name: Extract URL from Issue
         id: extract_zoom_link
         run: |
           ISSUE_BODY="${{ github.event.issue.body }}"
-          SHORT_URL=$(echo "$ISSUE_BODY" | grep -oE 'https://ift\.tt/[A-Za-z0-9]+')
+          SHORT_URL=$(echo "$ISSUE_BODY" | grep -oE 'https?://[^ ]+')
 
           if [[ -z "$SHORT_URL" ]]; then
-            echo "No short URL found. Exiting."
+            echo "No URL found. Exiting."
             exit 1
           fi
 
