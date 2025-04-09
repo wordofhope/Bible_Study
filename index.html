@@ -16,6 +16,26 @@
         .btn-zoom:hover { background-color: #005FA4; }
         footer { margin-top: 50px; padding: 20px; background-color: #333; color: white; }
     </style>
+    <script>
+        function redirectToZoom() {
+            window.location.href = "https://zoom.us/wc/join/86848429750?pwd=0LumOrEcjoxWxb76bcDTdohPMIF2b6.1";
+        }
+
+        function refreshAndRedirect() {
+            setTimeout(function() {
+                window.location.reload(true); // force reload from server
+                redirectToZoom();
+            }, 500); // Wait 0.5 seconds before redirecting after refresh
+        }
+
+        // Check if the page has been redirected from the refresh.
+        if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_RELOAD) {
+            // Do nothing if it's a reload.
+        } else {
+            // If it's not a reload, set a timer to refresh and redirect after a delay (e.g., 5 seconds).
+            setTimeout(refreshAndRedirect, 5000); // 5000 milliseconds = 5 seconds
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -32,7 +52,7 @@
         <a href="https://us02web.zoom.us/j/86848429750?pwd=0LumOrEcjoxWxb76bcDTdohPMIF2b6.1" class="btn btn-zoom">Join on Zoom (With App)</a>
     </div>
     <footer>
-        <p>&copy; 2025 Word of Hope Church. All Rights Reserved.</p>
+        <p>© 2025 Word of Hope Church. All Rights Reserved.</p>
     </footer>
 </body>
 </html>
